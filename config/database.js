@@ -6,7 +6,7 @@ require('dotenv').config();
  * -------------- DATABASE ----------------
  */
 
-const connection = mongoose.createConnection(process.env.MONGODB, {
+const connection = mongoose.createConnection(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
