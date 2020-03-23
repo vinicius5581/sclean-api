@@ -79,6 +79,7 @@ const facebookStrategyOptions = {
 };
 
 const facebookStrategyVerifyCallback = (accessToken, refreshToken, profile, done) => {
+    console.log('facebook profile', profile)
     User.findOne({facebookId: profile.id}).then((currentUser) => {
         if(currentUser){
             // already have this user
