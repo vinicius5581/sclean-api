@@ -3,6 +3,7 @@ const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
 const isAuth = require('../middleware/authMiddleware').isAuth;
 const isAdmin = require('../middleware/authMiddleware').isAdmin;
+const User = require('../model/user-model');
 
 
 router.get('/', (req, res, next) => {
