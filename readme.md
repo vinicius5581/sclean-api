@@ -2,14 +2,14 @@
 
 Replace {{key}} with respective value. For example: 
 
-DB_STRING={{mongoUrl}} 
+MONGODB={{mongoUrl}} 
 
 should become something like 
 
-DB_STRING=mongodb://localhost:27017/tutorial_dev
+MONGODB=mongodb://localhost:27017/tutorial_dev
 
 ```
-DB_STRING={{mongoUrl}}
+MONGODB={{mongoUrl}}
 SECRET={{randomString}}
 PORT=3000
 GOOGLE_CLIENT_ID={{client id from google dev console google + api}}
