@@ -16,7 +16,7 @@ const localStrategyOptions = {
 };
 
 const localStrategyVerifyCallback = (username, password, done) => {
-    User.findOne({ username: username })
+    User.findOne({ "local.displayName": username })
         .then((user) => {
             if (!user) { 
                 return done(null, false) 
@@ -47,9 +47,9 @@ const googleStrategyOptions = {
 };
 
 const googleStrategyVerifyCallback = (accessToken, refreshToken, profile, done) => {
-    console.log('profile: ', profile);
+    console.log('google profile: ', profile);
     // check if user already exists in our own db
-    User.findOne({googleId: profile.id}).then((currentUser) => {
+    User.findOne({ "google.id": profile.id }).then((currentUser) => {
         if(currentUser){
             // already have this user
             console.log('user is: ', currentUser);
@@ -57,8 +57,9 @@ const googleStrategyVerifyCallback = (accessToken, refreshToken, profile, done) 
         } else {
             // if not, create user in our db
             new User({
-                googleId: profile.id,
-                username: profile.displayName
+                "google.id": profile.id,
+                "google.displayName": profile.displayName,
+                "local.displayName": profile.displayName,
             }).save().then((newUser) => {
                 console.log('created new user: ', newUser);
                 done(null, newUser);
@@ -79,17 +80,17 @@ const facebookStrategyOptions = {
 };
 
 const facebookStrategyVerifyCallback = (accessToken, refreshToken, profile, done) => {
-    console.log('facebook profile', profile)
-    User.findOne({facebookId: profile.id}).then((currentUser) => {
+    console.log('facebook profile: ', profile);
+    User.findOne({ "facebook.id": profile.id }).then((currentUser) => {
         if(currentUser){
             // already have this user
-            console.log('user is: ', currentUser);
             done(null, currentUser);
         } else {
             // if not, create user in our db
             new User({
-                facebookId: profile.id,
-                username: profile.displayName
+                "facebook.id": profile.id,
+                "facebook.displayName": profile.displayName,
+                "local.displayName": profile.displayName,
             }).save().then((newUser) => {
                 console.log('created new user: ', newUser);
                 done(null, newUser);
