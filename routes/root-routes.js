@@ -1,34 +1,33 @@
 const router = require('express').Router();
 const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
-const isAuth = require('./authMiddleware').isAuth;
-const isAdmin = require('./authMiddleware').isAdmin;
+const isAuth = require('../middleware/authMiddleware').isAuth;
+const isAdmin = require('../middleware/authMiddleware').isAdmin;
 
 
 router.get('/', (req, res, next) => {
     res.send('<h1>Home</h1><p>Please <a href="/register">register</a></p>');
 });
 
-// When you visit http://localhost:3000/login, you will see "Login Page"
 router.get('/login', (req, res, next) => {
-   
-    const form = '<h1>Login Page</h1><form method="POST" action="/login">\
-    Enter Username:<br><input type="text" name="uname">\
-    <br>Enter Password:<br><input type="password" name="pw">\
-    <br><br><input type="submit" value="Submit"></form>';
+    const form = '<h1>Login Page</h1><br/><br/>\
+        <a class="google-btn" href="/auth/google">Google+</a><br/><br/>\
+        <form method="POST" action="/login">\
+        Enter Username:<br><input type="text" name="uname">\
+        <br>Enter Password:<br><input type="password" name="pw">\
+        <br><br><input type="submit" value="Submit"></form>';
     res.send(form);
 });
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login-failure', successRedirect: 'login-success' }));
 
-// When you visit http://localhost:3000/register, you will see "Register Page"
 router.get('/register', (req, res, next) => {
     const form = '<h1>Register Page</h1><br/><br/>\
-                    <a class="google-btn" href="/auth/google">Google+</a><br/><br/>\
-                    <form method="post" action="register">\
-                    Enter Username:<br><input type="text" name="uname">\
-                    <br>Enter Password:<br><input type="password" name="pw">\
-                    <br><br><input type="submit" value="Submit"></form>';
+        <a class="google-btn" href="/auth/google">Google+</a><br/><br/>\
+        <form method="post" action="register">\
+        Enter Username:<br><input type="text" name="uname">\
+        <br>Enter Password:<br><input type="password" name="pw">\
+        <br><br><input type="submit" value="Submit"></form>';
     res.send(form);
 });
 
@@ -53,12 +52,6 @@ router.post('/register', (req, res, next) => {
     res.redirect('/login');
 });
 
-/**
- * Lookup how to authenticate users on routes with Local Strategy
- * Google Search: "How to use Express Passport Local Strategy"
- * 
- * Also, look up what behaviour express session has without a maxage set
- */
 router.get('/protected-route', isAuth, (req, res, next) => {
     res.send('You made it to the route.');
 });
