@@ -13,6 +13,7 @@ router.get('/', (req, res, next) => {
 router.get('/login', (req, res, next) => {
     const form = '<h1>Login Page</h1><br/><br/>\
         <a class="google-btn" href="/auth/google">Google+</a><br/><br/>\
+        <a class="google-btn" href="/auth/facebook">Facebook</a><br/><br/>\
         <form method="POST" action="/login">\
         Enter Username:<br><input type="text" name="uname">\
         <br>Enter Password:<br><input type="password" name="pw">\
