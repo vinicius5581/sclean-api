@@ -75,7 +75,7 @@ passport.use(new GoogleStrategy(googleStrategyOptions, googleStrategyVerifyCallb
 const facebookStrategyOptions = {
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "/auth/facebook/callback"
+    callbackURL: "https://boiling-cliffs-03835.herokuapp.com/auth/facebook/callback"
 };
 
 const facebookStrategyVerifyCallback = (accessToken, refreshToken, profile, done) => {
