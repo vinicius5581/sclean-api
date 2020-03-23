@@ -13,7 +13,7 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 
 
 router.get('/facebook', passport.authenticate('facebook', {
-    scope: ['read_stream', 'publish_actions'] 
+    scope: ['email'] 
 }));
 
 router.get('/facebook/redirect', passport.authenticate('facebook'), (req, res) => {
