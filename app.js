@@ -4,18 +4,20 @@ const session = require('express-session');
 const passport = require('passport');
 // const crypto = require('crypto');
 // const isDevelopment =  app.get('env') === 'development';
-const routes = require('./routes');
 
 /**
- * Database connection 
+ * Database connection
  */
-const connection = require('./config/database');
 const MongoStore = require('connect-mongo')(session);
+const connection = require('./config/database');
+
+
+const routes = require('./routes');
 
 /**
  * -------------- GENERAL SETUP ----------------
  */
-
+console.log('test')
 require('dotenv').config();
 
 const app = express();
