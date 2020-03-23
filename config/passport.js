@@ -1,25 +1,26 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const connection = require('./database');
-const User = connection.models.User;
+const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+const User = require('../model/user-model');
 const validPassword = require('../lib/passwordUtils').validPassword;
 
-const customFields = {
+require('dotenv').config();
+
+/**
+ * Local Strategy
+ */
+const localStrategyOptions = {
     usernameField: 'uname',
     passwordField: 'pw'
 };
 
-const verifyCallback = (username, password, done) => {
-
+const localStrategyVerifyCallback = (username, password, done) => {
     User.findOne({ username: username })
         .then((user) => {
-
             if (!user) { 
                 return done(null, false) 
             }
-            
             const isValid = validPassword(password, user.hash, user.salt);
-            
             if (isValid) {
                 return done(null, user);
             } else {
@@ -29,12 +30,46 @@ const verifyCallback = (username, password, done) => {
         .catch((err) => {   
             done(err);
         });
-
 }
 
-const strategy  = new LocalStrategy(customFields, verifyCallback);
+passport.use(new LocalStrategy(localStrategyOptions, localStrategyVerifyCallback));
 
-passport.use(strategy);
+
+/**
+ * Google Strategy
+ */
+
+const googleStrategyOptions = {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: '/auth/google/redirect'
+};
+
+const googleStrategyVerifyCallback = (accessToken, refreshToken, profile, done) => {
+    console.log('profile: ', profile);
+    // check if user already exists in our own db
+    User.findOne({googleId: profile.id}).then((currentUser) => {
+        if(currentUser){
+            // already have this user
+            console.log('user is: ', currentUser);
+            done(null, currentUser);
+        } else {
+            // if not, create user in our db
+            new User({
+                googleId: profile.id,
+                username: profile.displayName
+            }).save().then((newUser) => {
+                console.log('created new user: ', newUser);
+                done(null, newUser);
+            });
+        }
+    }).catch(err => console.log(err));
+}
+passport.use(new GoogleStrategy(googleStrategyOptions, googleStrategyVerifyCallback));
+
+/**
+ * Serializer and Deserializer
+ */
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
