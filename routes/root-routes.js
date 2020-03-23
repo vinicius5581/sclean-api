@@ -25,6 +25,7 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/login-
 router.get('/register', (req, res, next) => {
     const form = '<h1>Register Page</h1><br/><br/>\
         <a class="google-btn" href="/auth/google">Google+</a><br/><br/>\
+        <a class="google-btn" href="/auth/facebook">Facebook</a><br/><br/>\
         <form method="post" action="register">\
         Enter Username:<br><input type="text" name="uname">\
         <br>Enter Password:<br><input type="password" name="pw">\

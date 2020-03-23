@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const User = require('../model/user-model');
 const validPassword = require('../lib/passwordUtils').validPassword;
 
@@ -68,6 +69,38 @@ const googleStrategyVerifyCallback = (accessToken, refreshToken, profile, done) 
 passport.use(new GoogleStrategy(googleStrategyOptions, googleStrategyVerifyCallback));
 
 /**
+ * Facebook Strategy
+ */
+
+const facebookStrategyOptions = {
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "/auth/facebook/callback"
+};
+
+const facebookStrategyVerifyCallback = (accessToken, refreshToken, profile, done) => {
+    User.findOne({facebookId: profile.id}).then((currentUser) => {
+        if(currentUser){
+            // already have this user
+            console.log('user is: ', currentUser);
+            done(null, currentUser);
+        } else {
+            // if not, create user in our db
+            new User({
+                facebookId: profile.id,
+                username: profile.displayName
+            }).save().then((newUser) => {
+                console.log('created new user: ', newUser);
+                done(null, newUser);
+            });
+        }
+    }).catch(err => console.log(err));
+}
+
+passport.use(new FacebookStrategy(facebookStrategyOptions, facebookStrategyVerifyCallback));
+
+
+/** 
  * Serializer and Deserializer
  */
 
