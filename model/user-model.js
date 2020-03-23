@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     hash: String,
     salt: String,
     googleId: String,
+    facebookId: String,
     thumbnail: String,
     admin: Boolean
 });
