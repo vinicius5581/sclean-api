@@ -7,18 +7,18 @@ require('dotenv').config();
  */
 
 const connection = mongoose.createConnection(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 // Check connection
-connection.once('open', function () {
-    console.log('Connected to MongoDB');
+connection.once('open', function() {
+  console.log('Connected to MongoDB');
 });
 
 // Check for DB errors
-connection.on('error', function (err) {
-    console.log(err);
+connection.on('error', function(err) {
+  console.log(err);
 });
 
 // Expose the connection

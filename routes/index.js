@@ -9,13 +9,13 @@ const profileRoutes = require('./profile-routes');
  * Root routes
  */
 
- router.use('/',rootRoutes);
+router.use('/', rootRoutes);
 
 /**
  * Mock routes
  */
 
- router.use('/mock', mockRoutes);
+router.use('/mock', mockRoutes);
 
 /**
  * Auth routes

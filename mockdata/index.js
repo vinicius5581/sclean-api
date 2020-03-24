@@ -3,96 +3,93 @@
  */
 
 const users = [
-    {
-        id: 1,
-        name: {
-            first: 'f',
-            last: 'l'
-        },
-    }
+  {
+    id: 1,
+    name: {
+      first: 'f',
+      last: 'l',
+    },
+  },
 ];
 
 const teams = [
-    {
-        id: 1,
-        contact: {},
-    }
+  {
+    id: 1,
+    contact: {},
+  },
 ];
 
 const accounts = [
-    {
-        id: 1,
-        contact: {},
-        billing: {},
-        units: [1, 2]
-    }
+  {
+    id: 1,
+    contact: {},
+    billing: {},
+    units: [1, 2],
+  },
 ];
 
 const units = [
-    {
-        id: 1,
-        address: {
-            street: 'a'
-        },
-        notes: {},
+  {
+    id: 1,
+    address: {
+      street: 'a',
     },
-    {
-        id: 2,
-        address: {
-            street: 'b'
-        },
-        notes: {},
-    }
+    notes: {},
+  },
+  {
+    id: 2,
+    address: {
+      street: 'b',
+    },
+    notes: {},
+  },
 ];
 
-
 const roles = {
-    admin: {
-        id: "admin",
-        name: "Admin",
-        description: "",
-        resource : [
-            {
-                id : 'blog', 
-                permissions: ['create', 'read', 'update', 'delete']
-            },
-            {
-                id : 'user',
-                permissions: ['create', 'read', 'update', 'delete']
-            },
-            {
-                id : 'journal',
-                permissions: ['create', 'read', 'update', 'delete']
-            },
-
-        ]
-    },
-    editor: {
-        id: "editor",
-        name: "Editor",
-        description: "",
-        resource : [
-            {
-                id : 'blog', 
-                permissions: ['create', 'read', 'update', 'delete']
-            },
-            {
-                id : 'user',
-                permissions: ['read']
-            },
-            {
-                id : 'journal',
-                permissions: ['create', 'read', 'update']
-            },
-
-        ]
-    }
-}
+  admin: {
+    id: 'admin',
+    name: 'Admin',
+    description: '',
+    resource: [
+      {
+        id: 'blog',
+        permissions: ['create', 'read', 'update', 'delete'],
+      },
+      {
+        id: 'user',
+        permissions: ['create', 'read', 'update', 'delete'],
+      },
+      {
+        id: 'journal',
+        permissions: ['create', 'read', 'update', 'delete'],
+      },
+    ],
+  },
+  editor: {
+    id: 'editor',
+    name: 'Editor',
+    description: '',
+    resource: [
+      {
+        id: 'blog',
+        permissions: ['create', 'read', 'update', 'delete'],
+      },
+      {
+        id: 'user',
+        permissions: ['read'],
+      },
+      {
+        id: 'journal',
+        permissions: ['create', 'read', 'update'],
+      },
+    ],
+  },
+};
 
 module.exports = {
-    roles,
-    users,
-    teams,
-    accounts,
-    units,
-}
+  roles,
+  users,
+  teams,
+  accounts,
+  units,
+};
