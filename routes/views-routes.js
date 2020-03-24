@@ -21,14 +21,6 @@ router.get('/login', (req, res, next) => {
   res.send(form);
 });
 
-router.post(
-  '/login',
-  passport.authenticate('local', {
-    failureRedirect: '/login-failure',
-    successRedirect: 'login-success',
-  })
-);
-
 router.get('/register', (req, res, next) => {
   const form =
     '<h1>Register Page</h1><br/><br/>\
@@ -39,26 +31,6 @@ router.get('/register', (req, res, next) => {
         <br>Enter Password:<br><input type="password" name="pw">\
         <br><br><input type="submit" value="Submit"></form>';
   res.send(form);
-});
-
-router.post('/register', (req, res, next) => {
-  const saltHash = genPassword(req.body.pw);
-
-  const salt = saltHash.salt;
-  const hash = saltHash.hash;
-
-  const newUser = new User({
-    username: req.body.uname,
-    hash: hash,
-    salt: salt,
-    admin: true,
-  });
-
-  newUser.save().then(user => {
-    console.log(user);
-  });
-
-  res.redirect('/login');
 });
 
 router.get('/protected-route', isAuth, (req, res, next) => {

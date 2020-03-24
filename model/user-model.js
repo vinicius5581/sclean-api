@@ -6,6 +6,7 @@ const dbConnection = require('../config/database');
 const UserSchema = new Schema({
   local: {
     email: String,
+    username: String,
     displayName: String,
     hash: String,
     salt: String,

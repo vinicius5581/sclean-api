@@ -16,12 +16,13 @@ const localStrategyOptions = {
 };
 
 const localStrategyVerifyCallback = (username, password, done) => {
-  User.findOne({ 'local.displayName': username })
+  User.findOne({ 'local.username': username })
     .then(user => {
       if (!user) {
         return done(null, false);
       }
-      const isValid = validPassword(password, user.hash, user.salt);
+      console.log(user);
+      const isValid = validPassword(password, user.local.hash, user.local.salt);
       if (isValid) {
         return done(null, user);
       } else {
@@ -29,6 +30,7 @@ const localStrategyVerifyCallback = (username, password, done) => {
       }
     })
     .catch(err => {
+      console.log('err', err);
       done(err);
     });
 };
