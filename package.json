@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node app.js",
+    "start": "node generateKeypair.js && node app.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],
