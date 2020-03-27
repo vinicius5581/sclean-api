@@ -1,34 +1,32 @@
 const router = require('express').Router();
-const passport = require('passport');
 
-router.get(
-  '/google',
-  passport.authenticate('google', {
-    scope: ['profile'],
-  })
-);
+const authFacebookRoutes = require('./auth-facebook-routes');
+const authGoogleRoutes = require('./auth-google-routes');
+const authLocalRoutes = require('./auth-local-routes');
+const authJwtRoutes = require('./auth-jwt-routes');
 
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  res.redirect('/profile');
-});
+/**
+ * Facebook authentication
+ */
 
-router.get(
-  '/facebook',
-  passport.authenticate('facebook', {
-    scope: ['email'],
-  })
-);
+router.use('/facebook/', authFacebookRoutes);
 
-router.get(
-  '/facebook/redirect',
-  passport.authenticate('facebook'),
-  (req, res) => {
-    res.redirect('/profile');
-  }
-);
+/**
+ * Google authentication
+ */
+
+router.use('/google/', authGoogleRoutes);
+
+/**
+ * Local authentication
+ */
+
+// router.use('/local/', authLocalRoutes);
+
+/**
+ * JWT authentication
+ */
+
+router.use('/jwt/', authJwtRoutes);
 
 module.exports = router;
-
-// app.get('/auth/facebook/callback',
-//   passport.authenticate('facebook', { successRedirect: '/',
-//                                       failureRedirect: '/login' }));

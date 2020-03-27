@@ -29,6 +29,14 @@ const UserSchema = new Schema({
     email: String,
     displayName: String,
   },
+  verfication: {
+    email: { type: String, unique: true },
+    roles: [{ type: 'String' }],
+    isVerified: { type: Boolean, default: false },
+    password: String,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+  },
 });
 
 const User = dbConnection.model('User', UserSchema);
