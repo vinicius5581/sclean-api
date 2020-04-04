@@ -44,7 +44,7 @@ router.get('/admin-route', isAdmin, (req, res, next) => {
 // Visiting this route logs the user out
 router.get('/logout', (req, res, next) => {
   req.logout();
-  res.redirect('/login');
+  // res.redirect('/login');
 });
 
 router.get('/login-success', (req, res, next) => {
