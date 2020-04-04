@@ -14,25 +14,37 @@ router.post(
 );
 
 router.post('/register', (req, res, next) => {
-  const saltHash = genPassword(req.body.pw);
+  console.log(req.body);
+
+  const saltHash = genPassword(req.body.password);
 
   const salt = saltHash.salt;
   const hash = saltHash.hash;
 
   const newUser = new User({
     local: {
-      username: req.body.uname,
+      username: req.body.email,
+      email: req.body.email,
       hash: hash,
       salt: salt,
       admin: true,
     },
+    verification: {
+      email: req.body.email,
+    },
   });
 
-  newUser.save().then(user => {
-    console.log(user);
-  });
+  newUser
+    .save()
+    .then(user => {
+      res.send({
+        id: user._id,
+        email: user.local.email,
+      });
+    })
+    .catch(err => console.log('err: ', err));
 
-  res.redirect('/login');
+  // res.redirect('/login');
 });
 
 router.post('/confirmation', function(req, res, next) {

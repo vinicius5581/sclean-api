@@ -55,17 +55,17 @@ passport.use(new JwtStrategy(jwtStrategyOptions, JwtStrategyVerifyCallback));
  * Local Strategy
  */
 const localStrategyOptions = {
-  usernameField: 'uname',
-  passwordField: 'pw',
+  usernameField: 'email',
+  passwordField: 'password',
 };
 
 const localStrategyVerifyCallback = (username, password, done) => {
-  User.findOne({ 'local.username': username })
+  User.findOne({ 'local.email': username })
     .then(user => {
       if (!user) {
         return done(null, false);
       }
-      console.log(user);
+
       const isValid = validPassword(password, user.local.hash, user.local.salt);
       if (isValid) {
         return done(null, user);
@@ -74,7 +74,6 @@ const localStrategyVerifyCallback = (username, password, done) => {
       }
     })
     .catch(err => {
-      console.log('err', err);
       done(err);
     });
 };
@@ -118,7 +117,8 @@ const googleStrategyVerifyCallback = (
           .then(newUser => {
             console.log('created new user: ', newUser);
             done(null, newUser);
-          });
+          })
+          .catch(err => console.log('err: ', err));
       }
     })
     .catch(err => console.log(err));
@@ -160,7 +160,8 @@ const facebookStrategyVerifyCallback = (
           .then(newUser => {
             console.log('created new user: ', newUser);
             done(null, newUser);
-          });
+          })
+          .catch(err => console.log('err: ', err));
       }
     })
     .catch(err => console.log(err));
@@ -175,10 +176,12 @@ passport.use(
  */
 
 passport.serializeUser((user, done) => {
+  console.log('serializeUser');
   done(null, user.id);
 });
 
 passport.deserializeUser((userId, done) => {
+  console.log('deserializeUser');
   User.findById(userId)
     .then(user => {
       done(null, user);

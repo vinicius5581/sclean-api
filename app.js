@@ -17,7 +17,7 @@ const routes = require('./routes');
 /**
  * -------------- GENERAL SETUP ----------------
  */
-console.log('test');
+
 require('dotenv').config();
 
 const app = express();
@@ -45,6 +45,12 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
+
+/**
+ * CORS
+ */
+
+app.use(cors());
 
 /**
  * -------------- PASSPORT AUTHENTICATION ----------------
@@ -82,5 +88,5 @@ app.use((error, req, res, next) => {
  */
 
 app.listen(process.env.PORT, () => {
-  console.log('to rodando');
+  console.log(`App is running on port ${process.env.PORT}`);
 });

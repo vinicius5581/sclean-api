@@ -15,8 +15,8 @@ router.get('/login', (req, res, next) => {
         <a class="google-btn" href="/auth/google">Google+</a><br/><br/>\
         <a class="google-btn" href="/auth/facebook">Facebook</a><br/><br/>\
         <form method="POST" action="/login">\
-        Enter Username:<br><input type="text" name="uname">\
-        <br>Enter Password:<br><input type="password" name="pw">\
+        Enter Username:<br><input type="email" name="email">\
+        <br>Enter Password:<br><input type="password" name="password">\
         <br><br><input type="submit" value="Submit"></form>';
   res.send(form);
 });
@@ -27,8 +27,8 @@ router.get('/register', (req, res, next) => {
         <a class="google-btn" href="/auth/google">Google+</a><br/><br/>\
         <a class="google-btn" href="/auth/facebook">Facebook</a><br/><br/>\
         <form method="post" action="register">\
-        Enter Username:<br><input type="text" name="uname">\
-        <br>Enter Password:<br><input type="password" name="pw">\
+        Enter Username:<br><input type="email" name="email">\
+        <br>Enter Password:<br><input type="password" name="password">\
         <br><br><input type="submit" value="Submit"></form>';
   res.send(form);
 });

@@ -19,7 +19,7 @@ connection.once('open', function() {
 
 // Check for DB errors
 connection.on('error', function(err) {
-  console.log(err);
+  console.log('err', err);
 });
 
 // Expose the connection

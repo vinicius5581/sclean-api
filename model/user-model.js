@@ -29,7 +29,7 @@ const UserSchema = new Schema({
     email: String,
     displayName: String,
   },
-  verfication: {
+  verification: {
     email: { type: String, unique: true },
     roles: [{ type: 'String' }],
     isVerified: { type: Boolean, default: false },
