@@ -14,8 +14,10 @@ router.post(
 );
 
 router.post('/register', (req, res, next) => {
-  console.log(req.body);
-
+  console.log('req.body: ', req.body);
+  // console.log('req.session before: ', req.session);
+  // req.session.maisbonitodetodos = 'vinicius';
+  // console.log('req.session after: ', req.session);
   const saltHash = genPassword(req.body.password);
 
   const salt = saltHash.salt;
@@ -36,18 +38,16 @@ router.post('/register', (req, res, next) => {
 
   newUser
     .save()
-    .then(user => {
+    .then((user) => {
       res.send({
         id: user._id,
         email: user.local.email,
       });
     })
-    .catch(err => console.log('err: ', err));
-
-  // res.redirect('/login');
+    .catch((err) => console.log('err: ', err));
 });
 
-router.post('/confirmation', function(req, res, next) {
+router.post('/confirmation', function (req, res, next) {
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('email', 'Email cannot be blank').notEmpty();
   req.assert('token', 'Token cannot be blank').notEmpty();
@@ -58,7 +58,7 @@ router.post('/confirmation', function(req, res, next) {
   if (errors) return res.status(400).send(errors);
 
   // Find a matching token
-  Token.findOne({ token: req.body.token }, function(err, token) {
+  Token.findOne({ token: req.body.token }, function (err, token) {
     if (!token)
       return res.status(400).send({
         type: 'not-verified',
@@ -67,7 +67,7 @@ router.post('/confirmation', function(req, res, next) {
       });
 
     // If we found a token, find a matching user
-    User.findOne({ _id: token._userId, email: req.body.email }, function(
+    User.findOne({ _id: token._userId, email: req.body.email }, function (
       err,
       user
     ) {
@@ -83,7 +83,7 @@ router.post('/confirmation', function(req, res, next) {
 
       // Verify and save the user
       user.isVerified = true;
-      user.save(function(err) {
+      user.save(function (err) {
         if (err) {
           return res.status(500).send({ msg: err.message });
         }
@@ -93,7 +93,7 @@ router.post('/confirmation', function(req, res, next) {
   });
 });
 
-router.post('/resend', function(req, res, next) {
+router.post('/resend', function (req, res, next) {
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('email', 'Email cannot be blank').notEmpty();
   req.sanitize('email').normalizeEmail({ remove_dots: false });
@@ -102,7 +102,7 @@ router.post('/resend', function(req, res, next) {
   var errors = req.validationErrors();
   if (errors) return res.status(400).send(errors);
 
-  User.findOne({ email: req.body.email }, function(err, user) {
+  User.findOne({ email: req.body.email }, function (err, user) {
     if (!user)
       return res
         .status(400)
@@ -119,7 +119,7 @@ router.post('/resend', function(req, res, next) {
     });
 
     // Save the token
-    token.save(function(err) {
+    token.save(function (err) {
       if (err) {
         return res.status(500).send({ msg: err.message });
       }
@@ -144,7 +144,7 @@ router.post('/resend', function(req, res, next) {
           token.token +
           '.\n',
       };
-      transporter.sendMail(mailOptions, function(err) {
+      transporter.sendMail(mailOptions, function (err) {
         if (err) {
           return res.status(500).send({ msg: err.message });
         }

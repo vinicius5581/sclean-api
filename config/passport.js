@@ -28,7 +28,7 @@ const jwtStrategyOptions = {
   algorithms: ['RS256'],
 };
 
-const JwtStrategyVerifyCallback = function(jwt_payload, done) {
+const JwtStrategyVerifyCallback = function (jwt_payload, done) {
   console.log(jwt_payload);
 
   // // We will assign the `sub` property on the JWT to the database ID of user
@@ -45,8 +45,8 @@ const JwtStrategyVerifyCallback = function(jwt_payload, done) {
   //   }
   // });
   User.findOne({ _id: jwt_payload.sub })
-    .then(user => (user ? done(null, user) : done(null, false)))
-    .catch(err => done(err, null));
+    .then((user) => (user ? done(null, user) : done(null, false)))
+    .catch((err) => done(err, null));
 };
 
 passport.use(new JwtStrategy(jwtStrategyOptions, JwtStrategyVerifyCallback));
@@ -61,7 +61,8 @@ const localStrategyOptions = {
 
 const localStrategyVerifyCallback = (username, password, done) => {
   User.findOne({ 'local.email': username })
-    .then(user => {
+    .then((user) => {
+      console.log('localStrategyVerifyCallback user: ', user);
       if (!user) {
         return done(null, false);
       }
@@ -73,7 +74,7 @@ const localStrategyVerifyCallback = (username, password, done) => {
         return done(null, false);
       }
     })
-    .catch(err => {
+    .catch((err) => {
       done(err);
     });
 };
@@ -101,7 +102,7 @@ const googleStrategyVerifyCallback = (
   console.log('google profile: ', profile);
   // check if user already exists in our own db
   User.findOne({ 'google.id': profile.id })
-    .then(currentUser => {
+    .then((currentUser) => {
       if (currentUser) {
         // already have this user
         console.log('user is: ', currentUser);
@@ -114,14 +115,14 @@ const googleStrategyVerifyCallback = (
           'local.displayName': profile.displayName,
         })
           .save()
-          .then(newUser => {
+          .then((newUser) => {
             console.log('created new user: ', newUser);
             done(null, newUser);
           })
-          .catch(err => console.log('err: ', err));
+          .catch((err) => console.log('err: ', err));
       }
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 passport.use(
   new GoogleStrategy(googleStrategyOptions, googleStrategyVerifyCallback)
@@ -145,7 +146,7 @@ const facebookStrategyVerifyCallback = (
 ) => {
   console.log('facebook profile: ', profile);
   User.findOne({ 'facebook.id': profile.id })
-    .then(currentUser => {
+    .then((currentUser) => {
       if (currentUser) {
         // already have this user
         done(null, currentUser);
@@ -157,14 +158,14 @@ const facebookStrategyVerifyCallback = (
           'local.displayName': profile.displayName,
         })
           .save()
-          .then(newUser => {
+          .then((newUser) => {
             console.log('created new user: ', newUser);
             done(null, newUser);
           })
-          .catch(err => console.log('err: ', err));
+          .catch((err) => console.log('err: ', err));
       }
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 
 passport.use(
@@ -183,8 +184,8 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((userId, done) => {
   console.log('deserializeUser');
   User.findById(userId)
-    .then(user => {
+    .then((user) => {
       done(null, user);
     })
-    .catch(err => done(err));
+    .catch((err) => done(err));
 });
